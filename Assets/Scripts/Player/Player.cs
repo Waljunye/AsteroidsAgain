@@ -15,6 +15,7 @@ namespace Asteroids.Player
         [SerializeField] private float _bulletShootForce;
         [SerializeField] private float _acceleration;
 
+        private const float TRANSFORM_TO_RIGIBODY2D = 10f;
         private Camera _mainCamera;
         private Ship _ship;
 
@@ -26,6 +27,7 @@ namespace Asteroids.Player
         private void Start()
         {
             _mainCamera = Camera.main;
+            /*playerMove = new MoveRigibody(gameObject.GetComponent<Rigidbody2D>(), _speed * TRANSFORM_TO_RIGIBODY2D);*/
             playerMove = new AccelerationMove(transform, _speed, _acceleration);
             playerRotation = new PlayerRotationToMouse(transform);
             playerFire = new PlayerFire(_bullet, _barrel, _bulletShootForce);
