@@ -14,6 +14,7 @@ namespace Asteroids.Player
         [SerializeField] private Transform _barrel;
         [SerializeField] private float _bulletShootForce;
         [SerializeField] private float _acceleration;
+        [SerializeField] private float _bulletDamage;
 
         private const float TRANSFORM_TO_RIGIBODY2D = 10f;
         private Camera _mainCamera;
@@ -30,7 +31,7 @@ namespace Asteroids.Player
             /*playerMove = new MoveRigibody(gameObject.GetComponent<Rigidbody2D>(), _speed * TRANSFORM_TO_RIGIBODY2D);*/
             playerMove = new AccelerationMove(transform, _speed, _acceleration);
             playerRotation = new PlayerRotationToMouse(transform);
-            playerFire = new PlayerFire(_bullet, _barrel, _bulletShootForce);
+            playerFire = new PlayerFire(_bullet, _barrel, _bulletShootForce, _bulletDamage);
             playerHealth = new PlayerHealth(_hp, gameObject);
             _ship = new Ship(playerMove, playerRotation, playerFire, playerHealth);
         }
@@ -53,10 +54,17 @@ namespace Asteroids.Player
                 _ship.Fire();
             }
         }
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            /*_ship.GetHit();*/
+            Debug.Log("Hit");
+        }
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            _ship.GetHit();
-            Debug.Log("Hit");
+            if (collision.gameObject.CompareTag("Enemy"))
+            {
+                _ship.GetHit();
+            }
         }
     }
 }

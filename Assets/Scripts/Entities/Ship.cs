@@ -14,7 +14,7 @@ namespace Asteroids.Entities
         private readonly IHealth _healthSystemImplementation;
 
         public float Speed => _moveImplementation.Speed;
-        public float HP => _healthSystemImplementation.HP;
+        public Health HP => _healthSystemImplementation.HP;
 
         public Ship(IPlayerMove moveImplementation, IRotation rotationImplementation, IPlayerFire playerFireImplementation, IHealth healthSystemImplementation)
         {

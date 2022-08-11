@@ -6,7 +6,7 @@ namespace Asteroids.Interfaces
 {
     public interface IHealth
     {
-        float HP { get; }
+        Health HP { get; }
         void GetHit();
     }
 }

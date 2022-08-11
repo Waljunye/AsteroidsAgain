@@ -2,27 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Asteroids.Interfaces;
-public class PlayerHealth : IHealth
+using System;
+
+namespace Asteroids.Player
 {
-    private GameObject _hittableUnit;
-    public float HP { get; private set; }
-    public PlayerHealth(float startHP, GameObject unit)
+    public class PlayerHealth : IHealth
     {
-        HP = startHP;
-        _hittableUnit = unit;
-    }
-    
-
-    public void GetHit()
-    {
-        if(HP <= 0)
+        public Health HP { get; private set; }
+        public PlayerHealth(float startHP, GameObject unit, Action OnDeath = null)
         {
-            Object.Destroy(_hittableUnit);
+            HP = new Health(startHP);
+            if(OnDeath == null)
+            {
+                HP.OnLessThanZero += () => UnityEngine.Object.Destroy(unit);
+            }
         }
-        else
-        {
-            HP--;
-        }
-    }
 
+
+        public void GetHit()
+        {
+            HP.GetDamage(1);
+        }
+
+    }
 }
+
