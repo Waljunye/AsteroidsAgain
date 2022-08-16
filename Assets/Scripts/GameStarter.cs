@@ -6,14 +6,13 @@ namespace Asteroids
 {
     public class GameStarter : MonoBehaviour
     {
-        [SerializeField] List<GameObject> positions;
+        [SerializeField] List<Transform> positions;
         private void Start()
         {
-            var enemy = Enemy.CreateEnemy(new Health(100f), gameObject.transform, EnemyType.BigAsteroid);
-            var enemy1 = Enemy.CreateEnemy(new Health(10f), gameObject.transform, EnemyType.Asteroid);
+            var enemy = Enemy.CreateEnemy(new Health(100f), gameObject.transform, EnemyType.EnemyShip);
             if(enemy is EnemyShip enemyShip)
             {
-                enemyShip.Patrool(positions);
+                enemyShip.Patrool(positions, 10f);
             }
         }
     }

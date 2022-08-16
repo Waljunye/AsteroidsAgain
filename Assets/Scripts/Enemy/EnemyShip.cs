@@ -9,36 +9,28 @@ namespace Asteroids
 {
     public class EnemyShip : Enemy
     {
-        private Vector3 moveVector;
-        private bool IsMoving;
-        private GameObject currentDistination;
-        public void GoToPosition(GameObject distination)
+        private List<Transform> _wayPoints;
+        private int _currentWPId;
+        private float _speed;
+        public void Patrool(List<Transform> patroolPoints, float patroolSpeed)
         {
-            moveVector = transform.position - distination.transform.position;
-            currentDistination = distination;
-            IsMoving = true;
+            _wayPoints = patroolPoints;
+            _currentWPId = 0;
+            _speed = patroolSpeed;
         }
-        public async void Patrool(List<GameObject> patroolPoints)
-        { 
-            foreach(GameObject patrolPoint in patroolPoints)
+        private void Update()
+        {
+            Transform currentWp = _wayPoints[_currentWPId];
+            if(Vector2.Distance(transform.position, currentWp.position) < 0.01f)
             {
-                GoToPosition(patrolPoint);
+                _currentWPId = (_currentWPId + 1) % _wayPoints.Count;
+            }
+            else
+            {
+                transform.position = Vector2.MoveTowards(transform.position, currentWp.position, _speed * Time.deltaTime);
             }
         }
-        public void FixedUpdate()
-        {
-            if(IsMoving)
-            {
-                transform.position += new Vector3((-moveVector.x * 0.01f), (-moveVector.y) * 0.01f);
-            }
-        }
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.gameObject.Equals(currentDistination))
-            {
-                IsMoving = false;
-            }
-        }
+
     }
 }
 

@@ -13,6 +13,7 @@ namespace Asteroids
         
         public static Enemy CreateEnemy(Health hp, Transform spawnPosition, EnemyType enemyType = EnemyType.Asteroid, Action OnDestroy = null, int creationForce = 100)
         {
+            // TODO: оепеирх мю тюапхвмши лернд
             Enemy enemy;
             switch (enemyType)
             {
