@@ -32,8 +32,8 @@ namespace Asteroids.Object_Pool
                     ReturnToPool(instantiate.transform);
                     _objectPool.Add(instantiate);
                 }
+                bullet = _objectPool.FirstOrDefault(a => !a.gameObject.activeSelf);
             }
-            bullet = _objectPool.FirstOrDefault(a => !a.gameObject.activeSelf);
             bullet.gameObject.SetActive(true);
             return bullet;
         }

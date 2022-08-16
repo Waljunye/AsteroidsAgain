@@ -16,7 +16,6 @@ namespace Asteroids
         {
             if (!collision.gameObject.CompareTag("Player") && bulletCreator != BulletCreator.enemy)
             {
-                //TODO: OBJECT POOL FOR BULLETS
                 OnHit.Invoke();
             }
             

@@ -6,32 +6,37 @@ using System;
 
 namespace Asteroids
 {
+    public enum EnemyType { BigAsteroid, Asteroid, EnemyShip }
     public abstract class Enemy : MonoBehaviour
     {
         private Health Health;
-        private Rigidbody2D _rb2D;
-        public static Enemy CreateAsteroidEnemy(Health hp, Action OnDestroy = null, int creationForce = 100)
+        
+        public static Enemy CreateEnemy(Health hp, Transform spawnPosition, EnemyType enemyType = EnemyType.Asteroid, Action OnDestroy = null, int creationForce = 100)
         {
-            var enemy = Instantiate(Resources.Load<Asteroid>("Enemy/Enemy_Asteroid"));
-            System.Random rnd = new System.Random();
-            Rigidbody2D rb2D = enemy.GetComponent<Rigidbody2D>();
-            rb2D.AddForce(new Vector2(rnd.Next(-creationForce, creationForce), rnd.Next(-creationForce, creationForce)));
+            Enemy enemy;
+            switch (enemyType)
+            {
+                case (EnemyType.Asteroid):
+                    enemy = Instantiate(Resources.Load<Asteroid>("Enemy/Enemy_Asteroid"), spawnPosition.position, Quaternion.identity);
+                    break;
+                case (EnemyType.BigAsteroid):
+                    enemy = Instantiate(Resources.Load<BigAsteroid>("Enemy/Enemy_Asteroid_Big"), spawnPosition.position, Quaternion.identity);
+                    break;
+                case (EnemyType.EnemyShip):
+                    enemy = Instantiate(Resources.Load<EnemyShip>("Enemy/Enemy_ship"), spawnPosition.position, Quaternion.identity);
+                    break;
+                default:
+                    enemy = Instantiate(Resources.Load<Asteroid>("Enemy/Enemy_Asteroid"), spawnPosition.position, Quaternion.identity);
+                    break;
+            }
             enemy.Health = hp;
             if (OnDestroy == null)
             {
                 enemy.Health.OnLessThanZero += () => Destroy(enemy.gameObject);
             }
-
-            return enemy;
-        }
-        public static Enemy CreateBigAsteroidEnemy(Health hp, Action OnDestroy = null)
-        {
-            var enemy = Instantiate(Resources.Load<BigAsteroid>("Enemy/Enemy_Asteroid_Big"));
-
-            enemy.Health = hp;
-            if (OnDestroy == null)
+            else
             {
-                enemy.Health.OnLessThanZero += () => Destroy(enemy.gameObject);
+                enemy.Health.OnLessThanZero += OnDestroy;
             }
 
             return enemy;
