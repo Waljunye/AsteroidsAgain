@@ -1,19 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Asteroids.EnemyFactory;
+using ServiceLocator = Asteroids.ServiceLocator;
+using Asteroids.Object_Pool;
 
 namespace Asteroids
 {
     public class GameStarter : MonoBehaviour
     {
-        [SerializeField] List<Transform> positions;
+        [SerializeField]private List<Transform> positions;
+        [SerializeField]private List<Transform> SpawnPositions;
+        private EnemyFactory _asteroidFactory;
+        private void Awake()
+        {
+            ServiceLocator.ServiceLocator.SetService<Object_Pool.BulletPool>(new BulletPool(10));
+        }
         private void Start()
         {
-            var enemy = Enemy.CreateEnemy(new Health(100f), gameObject.transform, EnemyType.EnemyShip);
-            if(enemy is EnemyShip enemyShip)
+            _asteroidFactory = gameObject.AddComponent<EnemyShipFactory>();
+
+
+            #region TEST
+            Enemy enemy = default;
+            foreach (Transform spawnPosition in SpawnPositions)
             {
-                enemyShip.Patrool(positions, 5f);
+                enemy = _asteroidFactory.CreateEnemy(new Health(10f), spawnPosition, EnemyType.Asteroid, speed: 5f);
             }
+            
+            if (enemy is EnemyShip enemyShip)
+            {
+                enemyShip.Patrool(positions);
+            }
+            #endregion
         }
     }
 }

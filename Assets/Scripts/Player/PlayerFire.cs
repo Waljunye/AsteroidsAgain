@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Asteroids.Interfaces;
 using Asteroids.Object_Pool;
+using Asteroids.ServiceLocator;
 namespace Asteroids.Player
 {
     public class PlayerFire : IPlayerFire
@@ -19,19 +20,16 @@ namespace Asteroids.Player
             _barrel = barrel;
             _bulletShootForce = bulletShootForce;
             _bulletDamage = bulletDamage;
-            _bulletPool = new BulletPool(bulletPoolCapacity);
+            _bulletPool = ServiceLocator.ServiceLocator.Resolve<Object_Pool.BulletPool>();
         }
         public void Fire()
         {
-            var bullet = _bulletPool.GetBullet();
-            bullet.transform.position = _barrel.position;
-            bullet.transform.rotation = _barrel.rotation;
-
-            bullet.bulletCreator = BulletCreator.player;
-            bullet.DamageValue = _bulletDamage;
-            bullet.OnHit += () => _bulletPool.ReturnToPool(bullet.transform);
-            
-            bullet.gameObject.GetComponent<Rigidbody2D>().AddForce(_barrel.up * _bulletShootForce);
+            var bullet = new BulletBuilder();
+            bullet.SetCreator(BulletCreator.player);
+            bullet.SetDamage(_bulletDamage);
+            bullet.SetOnCollisionEvent(() => _bulletPool.ReturnToPool(((GameObject)bullet).transform));
+            bullet.SetTransform(_barrel.position, _barrel.rotation);
+            ((Bullet)bullet).gameObject.GetComponent<Rigidbody2D>().AddForce(_barrel.up * _bulletShootForce);
         }
     }
 }
