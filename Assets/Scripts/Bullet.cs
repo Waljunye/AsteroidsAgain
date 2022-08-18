@@ -18,7 +18,12 @@ namespace Asteroids
             {
                 OnHit.Invoke();
             }
+            else if(!collision.gameObject.CompareTag("Enemy") && bulletCreator != BulletCreator.player)
+            {
+                OnHit.Invoke();
+            }
             
+
         }
     }
 }

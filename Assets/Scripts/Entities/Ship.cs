@@ -57,6 +57,10 @@ namespace Asteroids.Entities
         {
             _healthSystemImplementation.GetHit();
         }
+        public void GetHit(float value)
+        {
+            _healthSystemImplementation.GetHit(value);
+        }
     }
 }
 

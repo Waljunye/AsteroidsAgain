@@ -23,6 +23,10 @@ namespace Asteroids.Player
         {
             HP.GetDamage(1);
         }
+        public void GetHit(float value)
+        {
+            HP.GetDamage(value);
+        }
 
     }
 }

@@ -33,8 +33,12 @@ namespace Asteroids
             _bullet.DamageValue = damage;
             return this;
         }
-        public Bullet SetOnCollisionEvent(Action action)
+        public Bullet SetOnCollisionEvent(Action action = default)
         {
+            if(action == default)
+            {
+                _bullet.OnHit += () => bulletPool.ReturnToPool(_bullet.transform);
+            }
             _bullet.OnHit += action;
             return this;
         }

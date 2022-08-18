@@ -8,6 +8,7 @@ namespace Asteroids.Interfaces
     {
         Health HP { get; }
         void GetHit();
+        void GetHit(float value);
     }
 }
 

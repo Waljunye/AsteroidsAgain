@@ -237,6 +237,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4b94ef6a3624c948a086fb031e5762f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _barrel: {fileID: 1165653647538929975}
+  WalkSpeed: 0
+  RaycastDistance: 5
+  BulletDamage: 10
+  _bulletShootForce: 1000
+  _fireCoolDown: 2
 --- !u!50 &2242397760722565522
 Rigidbody2D:
   serializedVersion: 4

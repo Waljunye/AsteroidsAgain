@@ -56,8 +56,15 @@ namespace Asteroids.Player
         }
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            /*_ship.GetHit();*/
-            Debug.Log("Hit");
+            Bullet collidedBullet;
+            if (collision.gameObject.TryGetComponent<Bullet>(out collidedBullet))
+            {
+                if (collidedBullet.bulletCreator.Equals(BulletCreator.enemy))
+                {
+                    _ship.GetHit(collidedBullet.DamageValue);
+                }
+
+            }
         }
         private void OnCollisionEnter2D(Collision2D collision)
         {
